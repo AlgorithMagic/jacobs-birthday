@@ -8,8 +8,6 @@
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  
-
   <main class="app">
     <div class="main_text">
       <p>Jacob's</p>
@@ -32,7 +30,7 @@
           type="submit"
           style="background-color: #e53935; border: 2px solid orange; color: #fff; border-radius: 0.5rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer;"
         >
-          RSVP for Party
+          Submit
         </button>
       </form>
 
@@ -44,11 +42,20 @@
           We're Excited to See You!
         </button>
       </div>
+
+      <!-- New Buttons Section -->
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1rem;">
+        <button onclick="window.open('https://maps.app.goo.gl/brwcxeAgWeD8D5k67')" style="background-color: #e53935; border: 2px solid orange; color: #fff; border-radius: 50%; padding: 1rem; font-size: 1rem; cursor: pointer; width: 64px; height: 64px;">Map</button>
+        <button onclick="alert('Date: June 22\nTime: 9 AM - 12 PM\nLocation: Prince Charles Park (please press Map button for exact location)')" style="background-color: #e53935; border: 2px solid orange; color: #fff; border-radius: 50%; padding: 1rem; font-size: 1rem; cursor: pointer; width: 64px; height: 64px;">Info</button>
+        <button onclick="alert('Gifts are optional. Jacob loves monster trucks, trains, art, music toys, barns with animals, and dinosaurs!')" style="background-color: #e53935; border: 2px solid orange; color: #fff; border-radius: 50%; padding: 1rem; font-size: 1rem; cursor: pointer; width: 64px; height: 64px;">Gifts</button>
+      </div>
     </div>
   </main>
-<div class="image-wrapper">
-  <img src="https://static.vecteezy.com/system/resources/previews/019/907/655/non_2x/monster-truck-graphic-clipart-design-free-png.png" alt="Monster Truck" class="responsive-image" />
-</div>
+
+  <div class="image-wrapper">
+    <img src="https://static.vecteezy.com/system/resources/previews/019/907/655/non_2x/monster-truck-graphic-clipart-design-free-png.png" alt="Monster Truck" class="responsive-image" />
+  </div>
+
   <!-- ✅ Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
@@ -65,7 +72,6 @@
       measurementId: "G-RG4QFSN1MH"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const COUNTER_REF = db.ref("rsvp_count");
@@ -82,13 +88,11 @@
         return;
       }
 
-      // Save name to Firebase
       NAMES_REF.push({
         name: childName,
         timestamp: Date.now()
       });
 
-      // Update RSVP count silently in backend
       COUNTER_REF.transaction((currentVal) => {
         return (currentVal || 0) + 1;
       });
