@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Jacob's Truck-tastic 3rd Birthday</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  
+
+  <main class="app">
+    <div class="main_text">
+      <p>Jacob's</p>
+    </div>
+    <div class="secondary_text">
+      <p>3rd Birthday</p>
+
+      <!-- ✅ Form Structure -->
+      <form id="rsvpForm" style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 320px; margin: 0 auto;">
+        <label for="childName" style="font-size: 1rem; margin-bottom: 0.25rem;">
+          Child's First Name
+        </label>
+        <input
+          type="text"
+          id="childName"
+          name="childName"
+          required
+          style="padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #ccc; font-size: 1rem;"
+          placeholder="First name of child..."
+          autocomplete="off"
+        />
+        <button
+          type="submit"
+          style="background-color: #e53935; border: 2px solid orange; color: #fff; border-radius: 0.5rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer;"
+        >
+          Submit
+        </button>
+      </form>
+
+      <div id="excitedMessage" style="display: none; text-align: center;">
+        <button
+          style="background-color: #e53935; border: 2px solid orange; color: #fff; border-radius: 0.5rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: default;"
+          disabled
+        >
+          We're Excited to See You!
+        </button>
+      </div>
+    </div>
+  </main>
+<div class="image-wrapper">
+  <img src="https://static.vecteezy.com/system/resources/previews/019/907/655/non_2x/monster-truck-graphic-clipart-design-free-png.png" alt="Monster Truck" class="responsive-image" />
+</div>
+  <!-- ✅ Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD63uR9P3Pdu9ZgMeXfuEsOPgvMMpgeUzs",
+      authDomain: "jacobs-3rd-bday.firebaseapp.com",
+      databaseURL: "https://jacobs-3rd-bday-default-rtdb.firebaseio.com",
+      projectId: "jacobs-3rd-bday",
+      storageBucket: "jacobs-3rd-bday.appspot.com",
+      messagingSenderId: "389152268563",
+      appId: "1:389152268563:web:4ef8b7d7d66dc5466cfae6",
+      measurementId: "G-RG4QFSN1MH"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const COUNTER_REF = db.ref("rsvp_count");
+    const NAMES_REF = db.ref("rsvp_names");
+
+    document.getElementById('rsvpForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      if (localStorage.getItem('jacob_rsvped') === 'yes') return;
+
+      const childName = document.getElementById('childName').value.trim();
+      if (childName === "") {
+        alert("Please enter your child's first name before submitting.");
+        return;
+      }
+
+      // Save name to Firebase
+      NAMES_REF.push({
+        name: childName,
+        timestamp: Date.now()
+      });
+
+      // Update RSVP count silently in backend
+      COUNTER_REF.transaction((currentVal) => {
+        return (currentVal || 0) + 1;
+      });
+
+      localStorage.setItem('jacob_rsvped', 'yes');
+      this.style.display = 'none';
+      document.getElementById('excitedMessage').style.display = 'block';
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('jacob_rsvped') === 'yes') {
+        document.getElementById('rsvpForm').style.display = 'none';
+        document.getElementById('excitedMessage').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

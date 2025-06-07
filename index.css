@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Barrio&display=swap');
+
+/* Simple mobile-first reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+ font-family: 'Barrio', cursive;
+  background-color: #13b5d1;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Main title */
+.main_text p {
+  font-size: 3rem; /* Large text */
+  font-weight: bold;
+}
+
+/* Subtitle */
+.secondary_text p {
+  font-size: 2rem; /* Medium text */
+  font-weight: normal;
+}
+
+.image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  max-width: 100%;
+}
+
+.responsive-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
